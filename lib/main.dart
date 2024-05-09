@@ -1,35 +1,46 @@
-import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 
-void main() => runApp(XylophoneApp());
+void main() {
+  runApp(const Xylophone());
+}
 
-class XylophoneApp extends StatelessWidget {
-  void playSound(int soundNumber) {
-    final player = AudioCache();
-    player.play('note$soundNumber.wav');
-  }
-
-  Expanded buildKey({required Color color, required int soundNumber}) {
-    return Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.teal,
-          fixedSize: Size.fromWidth(100),
-          padding: EdgeInsets.all(10),
-        ),
-        onPressed: () {
-          playSound(soundNumber);
-        },
-        child: Text(''),
-      ),
-    );
-  }
+class Xylophone extends StatelessWidget {
+  const Xylophone({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void playSound(int soundNumber) {
+      AudioPlayer player = AudioPlayer();
+      player.play(AssetSource('note$soundNumber.wav'));
+    }
+
+    Expanded buildKey({required Color color, required int soundNumber}) {
+      return Expanded(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
+            backgroundColor: color,
+            fixedSize: const Size.fromWidth(100),
+            padding: const EdgeInsets.all(10),
+          ),
+          onPressed: () {
+            playSound(soundNumber);
+          },
+          child: const Text(''),
+        ),
+      );
+    }
+
     return MaterialApp(
+      title: 'Xylophone',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
       home: Scaffold(
-        backgroundColor: Colors.black,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
